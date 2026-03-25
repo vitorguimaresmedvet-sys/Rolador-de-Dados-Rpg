@@ -1,4 +1,3 @@
-# Rolador-de-Dados-Rpg
 # 🎲 Rolador de Dados RPG | RPG Dice Roller
 
 [Link para o Projeto Online / Link to Live Project]
