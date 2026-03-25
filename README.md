@@ -1,7 +1,6 @@
 # 🎲 Rolador de Dados RPG | RPG Dice Roller
 
-[Link para o Projeto Online / Link to Live Project]
-
+https://vitorguimaresmedvet-sys.github.io/Rolador-de-Dados-Rpg/
 ---
 
 ## 🇧🇷 Português
