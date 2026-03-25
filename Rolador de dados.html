@@ -1,0 +1,238 @@
+<!-- ====== DOCUMENTO HTML — ROLADOR DE DADOS RPG ======  -->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<!-- ====== HEAD - META TAGS, FONTES E CSS ======  -->
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Rolador de Dados</title>
+    <link rel="stylesheet" href="rolador_de_dados_style.css" />
+    <script src="roladordedados.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- ====== HEADER - TITULO E DESCRIÇÃO ======  -->
+
+    <header class="titulo">
+        <h1 id="titulo">Jogue seu dado</h1>
+        <h2>Selecione o dado que deseja rolar:</h2>
+        <p id="descricao">Escolha o tipo de dado e a quantidade que deseja rolar, depois clique no botão "Rolar" para
+            ver o resultado.</p>
+    </header>
+
+    <!-- ====== PAINEL DO ROLADOR DE DADOS ======  -->
+
+    <div class="seletorDeDados-container">
+        <div class="seletorDeDados">
+
+            <!-- SELETORES  DE SISTEMA-->
+            <select id="sistemasRpg">
+                <option value="dnd5ed">D&D 5e</option>
+                <option value="storytelling">Storytelling</option>
+                <option value="gurps">GURPS</option>
+                <option value="callOfCthulhu">Call of Cthulhu</option>
+                <option value="shadowrun">Shadowrun</option>
+            </select>
+
+            <!-- SELETORES DE DADOS -->
+            <select id="dados">
+                <option value="">Selecione um dado</option>
+                <option value="custom">Outro Dado</option>
+                <option value="4">D4</option>
+                <option value="6">D6</option>
+                <option value="8">D8</option>
+                <option value="10">D10</option>
+                <option value="12">D12</option>
+                <option value="20">D20</option>
+            </select>
+            <!-- QUANTIDADE DE DADOS -->
+            <input type="number" id="ladosCustom" placeholder="Lados do dado" style="display:none;">
+            <select id="quantidadeDeDados">
+                <option value="">Selecione a quantidade de dados</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+
+            <!-- Vantagem e Desvantagem para D&D 5e -->
+            <select id="vantagem">
+                <option value="normal">Normal</option>
+                <option value="vantagem">Vantagem</option>
+                <option value="desvantagem">Desvantagem</option>
+            </select>
+
+            <!-- BOTÕES -->
+            <button onclick="executarExpressaoUI('1d20')" title="Rola um teste padrão d20">🎲 D20</button>
+
+            <button onclick="executarExpressaoUI('1d100')" title="Rolagem percentual">🎲 D100</button>
+
+            <button onclick="danoPersonalizado()" title="Rolagem rápida de dano">💥 Dano</button>
+
+            <button type="button" onclick="roladorDeDados()" title="Executa a rolagem selecionada">🎲 Rolar</button>
+
+            <button type="button" id="btnReroll" style="display:none;" title="Repete a última rolagem">🔄
+                Reroll</button>
+
+            <button type="button" onclick="modoGM()" title="Ativa rolagem secreta">🕵️ GM</button>
+
+            <button type="button" onclick="copiarResultado()" title="Copia resultado">📋 Copiar</button>
+
+            <button type="button" onclick="limparResultado()" title="Limpa resultados">🧹 Limpar</button>
+
+            <button type="button" onclick="alternarTema()" title="Alternar tema claro/escuro">🌙 Tema</button>
+
+            <button onclick="salvarFavorito()">⭐ Favorito</button>
+
+            <button onclick="listarFavoritos()">📜 Favoritos</button>
+            
+            <button type="button" onclick="mostrarAjuda()" title="Mostra comandos do sistema">❓ Ajuda</button>
+            
+            <!--<input type="number" id="modificador" placeholder="Modificador">
+            <input type="text" id="expressao" placeholder="Expressão, ex: 2d6+3">
+            <button onclick="rolarExpressao('1d20')">🎲 D20</button>
+            <button onclick="rolarExpressao('1d100')">🎲 D100</button>
+            <button onclick="rolarExpressao('2d6+3')">💥 Dano</button>
+            <button type="button" onclick="roladorDeDados()">🎲 Rolar</button>
+            <button type="button" id="btnReroll" style="display:none;">🔄 Reroll</button>
+            <button type="button" onclick="modoGM()">🕵️ GM</button>
+            <button type="button" onclick="copiarResultado()">📋 Copiar Resultado</button>
+            <button type="button" onclick="limparResultado()">🧹 Limpar</button>
+            <button type="button" onclick="alternarTema()">🌙 Tema</button>
+            <button type="button" onclick="mostrarAjuda()">❓ Ajuda</button> -->
+            
+            
+            
+            <!-- ============================= -->
+            <!--        MACROS RÁPIDAS         -->
+            <!-- ============================= -->
+
+            <div class="macros-rapidas">
+
+                <b>Macros rápidas</b><br>
+
+                <button onclick="executarExpressaoUI('1d20')">1d20</button>
+
+                <button onclick="executarExpressaoUI('1d20+5')">Ataque</button>
+
+                <button onclick="danoPersonalizado()">Dano</button>
+
+                <button onclick="executarExpressaoUI('/npc')">NPC</button>
+
+                <button onclick="executarExpressaoUI('/nomes 3')">Nomes</button>
+
+            </div>
+
+            <div id = "barraFavoritos">
+                <b>Favoritos</b><br>
+                <div id="listaFavoritos"></div>
+            </div>
+            <!-- ============================= -->
+            <!--      EXPRESSÃO AVANÇADA       -->
+            <!-- ============================= -->
+
+            <div id="painelExpressao">
+                <input type="text" id="expressao" placeholder="Ex: 2d6+3 /npc /nomes 3">
+                <button onclick="executarExpressaoUI()">⚙ Rolar Expressão</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== RESULTADO DA ROLAGEM ======  -->
+
+    <div id="resultado">
+        <p id="resultadoTexto">🎲 Aguardando rolagem...</p>
+    </div>
+
+    <!-- ============================= -->
+    <!--        FILTRO HISTÓRICO      -->
+    <!-- ============================= -->
+
+    <div class="filtro-historico">
+        <h3>Filtrar Histórico</h3>
+        <select id="filtroHistorico" onchange="filtrarHistorico(this.value)">
+            <option value="todos">Todos</option>
+            <option value="dados">Dados</option>
+            <option value="resultado">Resultado</option>
+
+       <!-- <button onclick="filtrarHistorico('todos')">Todos</button>
+
+        <button onclick="filtrarHistorico('dados')">Dados</button>
+
+        <button onclick="filtrarHistorico('sistema')">Sistema</button> -->
+        </select>
+    </div>
+
+    <!-- ====== HISTÓRICO DE ROLAGENS E DADOS VISUAIS ======  -->
+    <div id="historico">
+        <h3>Histórico de Rolagens</h3>
+    </div>
+    <div id="dadosVisuais">🎲 🎲 🎲</div>
+
+    <!-- ====== FOOTER ======  -->
+    <footer>
+        <p>© Steanjack & Joe GoldPerkTea — 2026 </p>
+        <p>"Esse faz parte de um todo"</p>
+    </footer>
+    
+    <!-- ====== JANELA DE AJUDA COM COMANDOS ======  -->
+
+    <div id = "janelaAjuda" style="display:none;">
+        <div class = "conteudoAjuda">
+            <h2>🎲 COMANDOS DO ROLADOR</h2>
+            <pre>
+                COMANDOS DE ROLAGEM:
+                
+                EXPRESSÕES
+                2d6+3
+                1d20
+                4d6kh3
+                2d6!
+                3d10r1
+
+                SUCESSO
+                1d20>=15
+
+                MACROS
+                /atk Fazer ataque
+                /dano Fazer dano
+                /cura Curar
+                /init Iniciar combate
+                /clear Limpar
+                /stats Estatísticas
+                /hist Histórico
+                /ficha Ficha
+                /npc NPC
+                /npc ext (abre gerador externo)
+                /nomes x (x = numero de 1 a 10)
+                /nomes ext (abre gerador externo)
+                /dungeon (gera mapa)
+                /dungeon ext (abre gerador externo)
+
+                5ETOOLS
+                /monstro goblin
+                /tesouro
+                /encontro
+
+                ATALHOS
+                ENTER → rolar
+                ESC → limpar
+            </pre>
+        <button onclick="fecharAjuda()">Fechar</button>
+        </div>
+    </div>
+    
+</body>
+
+</html>
